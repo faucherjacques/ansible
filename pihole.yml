@@ -1,0 +1,10 @@
+---
+# This playbook deploys a pihole server.
+
+- name: Apply common config
+  hosts: pihole
+  remote_user: jack
+  become: yes
+  
+  roles:
+    - common
