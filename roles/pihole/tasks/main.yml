@@ -38,4 +38,79 @@
 
 - name: Download pihole
   become: True
-  
+  git:
+    repo="{{ git_repo_core }}"
+    dest="{{ fspath_pihole_src }}"
+
+- name: Download pihole web interface
+  become: True
+  git:
+    repo="{{ git_repo_web_interface }}"
+    dest="{{ fspath_web_interface }}"
+  tags:
+    - fjord
+
+- name: Create directory for pihole scripts
+  become: True
+  file:
+    path="{{ fspath_pihole}}/"
+    state=directory
+    owner=root
+    group=root
+    mode=0755
+
+- name: Create list of scripts
+  shell: "ls *.sh"
+  args:
+    chdir: "{{ fspath_pihole_src }}/advanced/Scripts"
+  register: pihole_scripts_list
+
+- name: Make scripts executable
+  become: True
+  file:
+    name="{{ fspath_pihole_src }}/advanced/Scripts/{{ item }}"
+    mode=0755
+  with_items: "{{ pihole_scripts_list.stdout_lines }}"
+
+- name: Install pihole scripts
+  become: True
+  file:
+    src="{{ fspath_pihole_src }}/advanced/Scripts/{{ item }}"
+    dest="{{ fspath_pihole }}/{{ item }}"
+    owner=root
+    group=root
+    mode=0755
+    state=link
+  with_items: "{{ pihole_scripts_list.stdout_lines }}"
+
+- name: Install Gravity rules updater
+  become: True
+  file:
+    src="{{ fspath_pihole_src }}/gravity.sh"
+    dest="{{ fspath_pihole }}/gravity.sh"
+    owner=root
+    group=root
+    mode=0755
+    state=link
+
+- name: Install pihole command
+  become: True
+  file:
+    src="{{ fspath_pihole_src }}/pihole"
+    dest="{{ fspath_pihole }}/pihole"
+    owner=root
+    group=root
+    mode=0755
+    state=link
+
+- name: Install bash completion
+  become: True
+  copy:
+    src="{{ fspath_pihole_src }}/advanced/bash-completion/pihole"
+    remote_src=True
+    dest="/etc/bash_completion.d"
+    owner=root
+    group=root
+    mode=0644
+
+
