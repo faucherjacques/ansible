@@ -8,3 +8,11 @@
   
   roles:
     - common
+
+- name: Install pihole
+  hosts: pihole
+  remote_user: jack
+  become: yes
+
+  roles:
+    - pihole

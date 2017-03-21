@@ -1,5 +1,14 @@
 ---
 # Handler to handle common notifications. Handlers are called by other plays.
 
-- name: restart pihole
-  service: name=pihole state=restarted
+- name: restart lighttpd
+  become: True
+  service: name=lighttpd state=restarted
+
+- name: restart dnsmasq
+  become: True
+  service: name=dnsmasq state=restarted
+
+- name: restart dhcpd
+  become: True
+  service: name=dhcpd state=restarted

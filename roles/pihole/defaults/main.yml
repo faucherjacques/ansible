@@ -1,0 +1,49 @@
+---
+git_repo_web_interface: "https://github.com/pi-hole/AdminLTE.git"
+git_repo_core: "https://github.com/pi-hole/pi-hole.git"
+fspath_web_interface: "/var/www/admin"
+fspath_web_directory: "/var/www/pihole"
+fspath_pihole: "/opt/pihole"
+fspath_pihole_src: "/opt/.pihole"
+fspath_pihole_config: "/etc/pihole"
+install_deps:
+  - "apt-utils"
+  - whiptail
+  - git
+  - dhcpcd5
+  - dnsutils
+  - bc
+  - dnsmasq
+  - curl
+  - unzip
+  - wget
+  - sudo
+  - netcat
+  - cron
+  - iproute2
+user_pihole: "pihole"
+group_pihole: "pihole"
+# These need to match the ones supplied to the LigHTTPd role
+user_lighttpd: "www-data"
+group_lighttpd: "www-data"
+user_dnsmasq: "dnsmasq"
+network_interface: ens160
+ipv4_static: True
+ipv4_address: "172.16.1.12"
+ipv6: False
+dns_servers:
+  - "8.8.8.8"
+  - "8.8.4.4"
+firewall_setup: False
+lighttpd_access_log: True
+pihole_log: True
+firewall_ports:
+  http:
+    port: 80
+    proto: tcp
+  dns:
+    port: 53
+    proto: udp
+  dnstcp
+    port: 53
+    proto: tcp

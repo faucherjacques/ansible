@@ -1,0 +1,41 @@
+---
+- name: install pihole dependencies
+  become: True
+  apt:
+    update_cache=True
+    cache_valid_time=3600
+    name="{{ item }}"
+    state=present
+  with_items: "{{ install_deps }}"
+
+- name: Create pihole group
+  become: True
+  user:
+    name="{{ user_pihole }}"
+    group="{{ group_pihole }}"
+    groups="{{ group_pihole}},{{ group_lighttpd }}"
+    comment="Ad filtering DNS proxy"
+    system=True
+    shell="/usr/sbin/nologin"
+
+- name: Create pihole config directory
+  become: True
+  file:
+    name="{{ fspath_pihole_config }}"
+    state=directory
+    owner="{{ user_pihole }}"
+    group="{{ group_pihole }}"
+    mode=0755
+
+- name: Create directory for pihole source
+  become: True
+  file:
+    name="{{ fspath_pihole_src }}"
+    state=directory
+    owner=root
+    group=root
+    mode=0755
+
+- name: Download pihole
+  become: True
+  
