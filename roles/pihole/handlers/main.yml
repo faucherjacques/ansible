@@ -1,0 +1,5 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+- name: restart pihole
+  service: name=pihole state=restarted
