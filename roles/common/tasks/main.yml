@@ -2,13 +2,14 @@
 # This playbook contains common plays that will run on all nodes.
 
 - name: Install ntp
-  apt: name=ntp state=present
+  apt: package=ntp state=present update_cache=yes
   tags: ntp
 
 - name: Configure ntp file
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
   tags: ntp
-  notify: restart ntp
+  notify: 
+    - restart ntp
 
 - name: Start ntp
   service: name=ntp state=started enabled=yes
