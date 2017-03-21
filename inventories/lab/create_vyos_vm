@@ -1,0 +1,2 @@
+[vyos-vm]
+an-vyos-1 disk='4' datastore='S320' network='Trunk' memory='512' cpucount='1' osid='debian6_64Guest'

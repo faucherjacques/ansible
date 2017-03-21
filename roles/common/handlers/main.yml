@@ -1,0 +1,11 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+- name: restart ntp
+  service: name=ntpd state=restarted
+
+- name: restart iptables
+  service: name=iptables state=restarted
+
+- name: restart networking
+  service: name=networking state=restarted
