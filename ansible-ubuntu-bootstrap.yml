@@ -1,0 +1,10 @@
+---
+# Bootstrap ansible on a fresh Ubunu install without python
+
+- hosts: ubuntu
+  gather_facts: False
+  become: True
+
+  tasks:
+  - name: Install Python2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
