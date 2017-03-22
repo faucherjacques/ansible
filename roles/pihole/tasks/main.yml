@@ -1,0 +1,18 @@
+---
+# Bootstrap Ubuntu for Ansible
+# Preconfigure Ubuntu for pihole
+# Install pihole
+
+- hosts: ubuntu
+
+  gather_facts: False
+  pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/pyhton || (apt -y update && apt install -y python-minimal)
+      changed_when: False
+    - setup:
+
+  tasks:
+    - name: Copy the script
+      copy:
+        src=
